@@ -3,7 +3,7 @@ package com.example.demo.repository.rowmapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.example.demo.service.dto.DataDto;
+import com.example.demo.domain.DataDto;
 import org.springframework.jdbc.core.RowMapper;
 
 public class DataDtoRowMapper implements RowMapper<DataDto> {

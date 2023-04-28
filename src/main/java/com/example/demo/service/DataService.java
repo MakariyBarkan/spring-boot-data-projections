@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
-import com.example.demo.service.dto.DataDto;
+import com.example.demo.domain.DataDto;
 
 public interface DataService {
 
@@ -11,9 +10,9 @@ public interface DataService {
 
     DataDto getById(Long id);
 
-    DataDto save(DataDto dto);
+    void save(DataDto dto);
 
-    DataDto update(DataDto dto);
+    void update(DataDto dto);
 
     void deleteById(Long id);
 }

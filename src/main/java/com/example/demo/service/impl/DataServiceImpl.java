@@ -1,13 +1,11 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import com.example.demo.domain.DataDto;
 import com.example.demo.repository.DataRepository;
 import com.example.demo.service.DataService;
-import com.example.demo.service.dto.DataDto;
 import com.example.demo.service.exception.NotFoundException;
-import com.example.demo.service.mapper.DataMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,32 +17,28 @@ public class DataServiceImpl implements DataService {
 
     private final DataRepository dataRepository;
 
-    private final DataMapper dataMapper;
-
     @Override
     public List<DataDto> findAll() {
-        return dataRepository.findAll().stream()
-                .map(dataMapper::toDto)
-                .collect(Collectors.toList());
+        return dataRepository.findAll();
     }
 
     @Override
     public DataDto getById(Long id) {
-        return dataRepository.findById(id).map(dataMapper::toDto)
+        return dataRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id));
     }
 
     @Override
-    public DataDto save(DataDto dto) {
-        return saveOrUpdate(dto);
+    public void save(DataDto dto) {
+        dataRepository.save(dto.getId(), dto.getPayload());
     }
 
     @Override
-    public DataDto update(DataDto dto) {
+    public void update(DataDto dto) {
         if (!dataRepository.existsById(dto.getId())) {
             throw new NotFoundException(dto.getId());
         }
-        return saveOrUpdate(dto);
+        dataRepository.update(dto.getId(), dto.getPayload());
     }
 
     @Override
@@ -53,9 +47,5 @@ public class DataServiceImpl implements DataService {
             throw new NotFoundException(id);
         }
         dataRepository.deleteById(id);
-    }
-
-    private DataDto saveOrUpdate(DataDto dto) {
-        return dataMapper.toDto(dataRepository.save(dataMapper.toEntity(dto)));
     }
 }

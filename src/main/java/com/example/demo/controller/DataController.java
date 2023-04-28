@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import com.example.demo.domain.DataDto;
 import com.example.demo.service.DataService;
-import com.example.demo.service.dto.DataDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +30,8 @@ public class DataController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DataDto save(@RequestBody DataDto dto) {
-        return dataService.save(dto);
+    public void save(@RequestBody DataDto dto) {
+        dataService.save(dto);
     }
 
     @GetMapping("/{id}")
@@ -40,8 +40,8 @@ public class DataController {
     }
 
     @PutMapping("/{id}")
-    public DataDto update(@PathVariable Long id, @RequestBody DataDto dto) {
-        return dataService.update(dto.setId(id));
+    public void update(@PathVariable Long id, @RequestBody DataDto dto) {
+        dataService.update(dto.setId(id));
     }
 
     @DeleteMapping("/{id}")
